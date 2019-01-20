@@ -7,6 +7,7 @@ from source.models import MessageLog, User, Leitner_Model, Setting
 import _thread as threading
 from datetime import datetime
 
+
 # vars:
 bot = telepot.Bot('760874948:AAF9Dn6Z1F8DIMUcVrkEds3obLSVxA6kRt0')
 message = ''
@@ -254,7 +255,7 @@ def callback(msg):
 
 def main():
     global bot
-    bot.message_loop({'chat': handle, 'callback_query': callback, 'inline_query': callback})
+    bot.message_loop({'chat': handle, 'callback_query': callback, 'inline_query': callback},timeout=100)
     print('Connected to Telegram...')
 
 

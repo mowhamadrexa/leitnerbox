@@ -36,10 +36,14 @@ def test():
 
             user.levels = (','.join(str(i) for i in levels))
 
-            queue = Leitner_Model.objects.filter(level__in=levels).order_by('level')
-            user.queue = (','.join(str(q.id) for q in queue))
+            if user.queue == "" or user.queue == None:
+                queue = Leitner_Model.objects.filter(level__in=levels, user=user).order_by('level')
+                user.queue = (','.join(str(q.id) for q in queue))
 
-            if (user.queue != "" and user.queue != None and user.time_to_ask.hour == now.hour and user.time_to_ask.minute == now.minute):
+            user.save()
+
+            if (
+                    user.queue != "" and user.queue != None and user.time_to_ask.hour == now.hour and user.time_to_ask.minute == now.minute):
                 user.mode = "reviewing"
                 markup = InlineKeyboardMarkup(inline_keyboard=[
                     [InlineKeyboardButton(text="Let's do this", callback_data=user.telegram_id + '-reviewing')],
